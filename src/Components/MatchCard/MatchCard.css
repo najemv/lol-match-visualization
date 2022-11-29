@@ -1,0 +1,9 @@
+.match-card {
+  display: flex;
+  flex-direction: row;
+  border-style: solid;
+  padding: 5px;
+  justify-content:space-between;
+  align-items: center;
+  margin: 5px;
+}

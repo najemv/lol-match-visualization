@@ -1,17 +1,21 @@
-import { Routes, Route, Router, BrowserRouter } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+
+import { Route, Routes } from "react-router";
+
+import Navbar from './Components/Navbar/Navbar';
 import LandingPage from './LandingPage/LandingPage';
 import MatchPage from './MatchPage/MatchPage';
-import PlayerPage from './PlayerPage/PlayerPage';
+import SummonerPage from './SummonerPage/SummonerPage';
 
 function AppRouter() {
+  
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
-        Hello router
         <Route path='/' element={<LandingPage />} />
-        <Route path='/player' element={<PlayerPage />} />
-        <Route path='/match' element={<MatchPage />} />
+        <Route path='/summoner/:name' element={<SummonerPage />} />
+        <Route path='/match/:matchId' element={<MatchPage />} />
       </Routes>
     </BrowserRouter>
   )
