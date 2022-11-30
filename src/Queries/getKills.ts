@@ -21,8 +21,6 @@ const getKills = (
     return passed;
   };
 
-  console.log(timeFrom, timeTo, killerId, victimId);
-  console.log(timeline.info.frames.filter(f => f.timestamp >= timeFrom * 60000 && f.timestamp <= timeTo * 60000))
   const result = timeline.info.frames
     .filter(f => f.timestamp >= timeFrom * 60000 && f.timestamp <= timeTo * 60000)
     .map(f => f.events

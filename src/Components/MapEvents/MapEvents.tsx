@@ -7,6 +7,7 @@ import MatchDto from "../../api/dto/match-dto";
 import MatchTimelineDto from "../../api/dto/match-timeline-dto";
 import getMatchSummary from "../../Queries/getMatchSummary";
 import getKills from "../../Queries/getKills";
+import SummonerDropdown from "../SummonerDropdown/SummonerDropdown";
 
 interface MapEventsProps {
   match: MatchDto;
@@ -19,15 +20,13 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
   const slider = useRef();
   const [size, setSize] = useState(0);
   const [mapItems, setMapItems] = useState([]);
-
+  const [summary] = useState(getMatchSummary(match));
   const [filterData, setFilterData] = useState({
     timeFrom: 0,
-    timeTo: 1000,
+    timeTo: summary.duration,
     killerId: 0,
     victimId: 0
   });
-
-  const summary = getMatchSummary(match);
 
   const onTimeChange = (values: number[]) => {
     if (values[0] !== filterData.timeFrom || values[1] !== filterData.timeTo) {
@@ -39,7 +38,8 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
     }
   }
 
-  const setKiller = (killerId: number) => {
+  const setKiller = (killerId: string) => {
+    killerId = parseInt(killerId);
     if (killerId !== filterData.killerId) {
       setFilterData({
         ...filterData,
@@ -48,7 +48,8 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
     }
   };
 
-  const setVictim = (victimId: number) => {
+  const setVictim = (victimId: string) => {
+    victimId = parseInt(victimId);
     if (victimId !== filterData.victimId) {
       setFilterData({
         ...filterData,
@@ -68,7 +69,6 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
   useEffect(() => {
     const events = getKills(timeline, filterData.timeFrom, filterData.timeTo,
       filterData.killerId, filterData.victimId);
-    console.log(events);
     const data = events.map(e => {
       return {
         position: {
@@ -86,28 +86,10 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
       <Map width={size} backgroundImage={"/howling_abyss.webp"} height={size} items={mapItems} />
 
       <TwoThumbInputRange onChange={onTimeChange} values={[filterData.timeFrom, filterData.timeTo]} min={0} max={summary.duration}/>
-      
-      <label for="killerSelection">Killer:</label>
-      <select id="killerSelection" onChange={(e) => setKiller(parseInt(e.target.value))}>
-        <option value={0}>Everyone</option>
-        {summary.team1.members.map(m => 
-          <option value={m.id}>{m.name} (Team 1)</option>
-        )}
-        {summary.team2.members.map(m => 
-          <option value={m.id}>{m.name} (Team 2)</option>
-        )}
-      </select>
 
-      <label for="victimSelection">Victim:</label>
-      <select id="victimSelection" onChange={(e) =>setVictim(parseInt(e.target.value))}>
-        <option value={0}>Everyone</option>
-        {summary.team1.members.map(m => 
-          <option value={m.id}>{m.name} (Team 1)</option>
-        )}
-        {summary.team2.members.map(m => 
-          <option value={m.id}>{m.name} (Team 2)</option>
-        )}
-      </select>
+      <SummonerDropdown label="Killer:" onChange={setKiller} match={match} />
+      <SummonerDropdown label="Victim:" onChange={setVictim} match={match} />
+      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface MapProps {
   width: number;
@@ -18,24 +18,7 @@ interface ItemProps {
 const Map = ({width, height, backgroundImage, items}: MapProps) => {
   const cvgRef = useRef(null);
   const [context, setContext] = useState<CanvasRenderingContext2D>();
-  
-  //useEffect(() => {
-  //  const canvasElement = canvasRef.current as unknown as HTMLCanvasElement;
-  //  const context = canvasElement.getContext('2d') as CanvasRenderingContext2D;
-  //  setContext(context);
-  //  redraw();
-  //});
 
-
-  const redraw = () => {
-    items.forEach(i => {
-      const img = new Image();
-      img.src = "/map.jpg";
-      context?.drawImage(img, 0, 0, width, height);
-      context?.rect(i.position.x, i.position.y, 10, 10);
-      context?.stroke();
-    })
-  };
 
   const myComponentStyle = {
     border: 'solid red',
