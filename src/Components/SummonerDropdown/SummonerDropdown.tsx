@@ -1,5 +1,6 @@
-import MatchDto from "../../api/dto/match-dto";
+import MatchDto from "../../api/dto/matchDto";
 import getMatchSummary from "../../Queries/getMatchSummary";
+import "./SummonerDropdown.css";
 
 interface SummonerDropdownProps {
   label: string;
@@ -7,21 +8,25 @@ interface SummonerDropdownProps {
   match: MatchDto;
 }
 
-
 const SummonerDropdown = ({label, onChange, match}: SummonerDropdownProps) => {
 
   var summary = getMatchSummary(match);
   return (
-    <div>
-      <p>{label}</p>
-      <select id="victimSelection" onChange={(e) => onChange(e.target.value)}>
+    <div className="dropdown-wrapper">
+      <p className="dropdown-label">{label}</p>
+      <select className="dropdown-select" onChange={(e) => onChange(e.target.value)}>
         <option value={0}>Everyone</option>
-        {summary.team1.members.map(m => 
-          <option value={m.id}>{m.name} (Team 1)</option>
-        )}
-        {summary.team2.members.map(m => 
-          <option value={m.id}>{m.name} (Team 2)</option>
-        )}
+        <optgroup label="Team 1:">
+          {summary.team1.members.map(m => 
+            <option key={m.id} value={m.id}>{m.name} ({m.champion})</option>
+          )}
+        </optgroup>
+        <optgroup label="Team 2:">
+          {summary.team2.members.map(m => 
+            <option key={m.id} value={m.id}>{m.name} ({m.champion})</option>
+          )}
+        </optgroup>
+        
       </select>
     </div>
   );

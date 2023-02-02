@@ -1,5 +1,5 @@
-import MatchDto from "../api/dto/match-dto";
-import { getFormatedDate } from "./helper";
+import MatchDto from "../api/dto/matchDto";
+import { getFormatedDate } from "../Utils/helper";
 
 interface TeamMemberData {
   name: string;

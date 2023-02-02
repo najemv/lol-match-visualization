@@ -1,0 +1,13 @@
+.map {
+  border: 'solid red';
+  margin-bottom: 50px;
+}
+
+.tooltip-container {
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  border: solid 1px;
+  font-size: 16px;
+}

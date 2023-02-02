@@ -1,23 +1,19 @@
 // @ts-nocheck
-import { useEffect, useRef, useState } from "react";
-import "./MapEvents.css";
-import Map from "../Map/Map";
+import interpolate from "color-interpolate";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TwoThumbInputRange } from "react-two-thumb-input-range";
-import MatchDto from "../../api/dto/match-dto";
-import MatchTimelineDto from "../../api/dto/match-timeline-dto";
-import getMatchSummary from "../../Queries/getMatchSummary";
+import { MatchContext } from "../../Pages/MatchPage/MatchPage";
 import getKills from "../../Queries/getKills";
+import getMatchSummary from "../../Queries/getMatchSummary";
+import { getMapImage } from "../../Utils/helper";
+import Map from "../Map/Map";
 import SummonerDropdown from "../SummonerDropdown/SummonerDropdown";
+import "./MapEvents.css";
+import MapKillTooltip from "./MapKillTooltip";
 
-interface MapEventsProps {
-  match: MatchDto;
-  timeline: MatchTimelineDto;
-}
-
-
-const MapEvents = ({match, timeline}: MapEventsProps) => {
+const MapEvents = () => {
+  const {match, timeline} = useContext(MatchContext);
   const sizer = useRef();
-  const slider = useRef();
   const [size, setSize] = useState(0);
   const [mapItems, setMapItems] = useState([]);
   const [summary] = useState(getMatchSummary(match));
@@ -27,6 +23,8 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
     killerId: 0,
     victimId: 0
   });
+ 
+  const colormap = interpolate(['red', 'yellow', 'lightgreen']);
 
   const onTimeChange = (values: number[]) => {
     if (values[0] !== filterData.timeFrom || values[1] !== filterData.timeTo) {
@@ -62,30 +60,57 @@ const MapEvents = ({match, timeline}: MapEventsProps) => {
     function handleResize() {
       setSize(sizer.current.clientWidth);
     }
+
     handleResize();
     window.addEventListener('resize', handleResize);
+    setFilterData({...filterData});
   }, []);
 
   useEffect(() => {
     const events = getKills(timeline, filterData.timeFrom, filterData.timeTo,
       filterData.killerId, filterData.victimId);
     const data = events.map(e => {
+      const start = filterData.timeFrom;
+      const end = filterData.timeTo;
+      const actual = e.timestamp / 60000;
+      const percentage = (actual - end) / (start - end);
       return {
         position: {
-          x: e.position.x / 10000,
-          y: e.position.y / 10000
+          x:  e.position.x / 15000,
+          y: e.position.y / 15000,
         },
-        text: `${e.killerId} killed ${e.victimId} at ${e.timestamp}`
+        color: colormap(percentage),
+        tooltip: <MapKillTooltip kill={e} />
       }
     });
     setMapItems(data);
-  }, [filterData])
+  }, [filterData]);
 
   return (
-    <div ref={sizer}>
-      <Map width={size} backgroundImage={"/howling_abyss.webp"} height={size} items={mapItems} />
+    <div ref={sizer} className="map-events">
+      <Map width={size} backgroundImage={getMapImage(match.info.gameMode)} height={size} items={mapItems} />
 
-      <TwoThumbInputRange onChange={onTimeChange} values={[filterData.timeFrom, filterData.timeTo]} min={0} max={summary.duration}/>
+      <div className="two-thumb-wrapper">
+        <p>Interval:</p>
+        <TwoThumbInputRange
+          onChange={onTimeChange} values={[filterData.timeFrom, filterData.timeTo]}
+          min={0} max={summary.duration}
+          trackColor={"black"}
+          thumbColor={"black"}
+          labelStyle={{
+            backgroundColor: "black",
+            color: "white",
+            height: "30px",
+            borderRadius: "10px"
+          }}
+          inputStyle={{
+            width: size - 132,
+          }}
+          labelTextStyle={{
+            fontSize: "20px"
+          }}
+          />
+      </div>
 
       <SummonerDropdown label="Killer:" onChange={setKiller} match={match} />
       <SummonerDropdown label="Victim:" onChange={setVictim} match={match} />

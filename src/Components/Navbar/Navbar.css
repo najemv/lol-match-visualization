@@ -3,33 +3,61 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   background-color: darkgoldenrod;
-  height: 64px;
+  height: 50px;
+  padding: 10px;
 }
 
 header * {
   align-items: center;
-  margin: 8px;
+  font-size: 20px;
 }
 
 .header-logo {
-  max-height: 100%;
+  height: 100%;
   display: flex;
 }
 
-.header-logo > img {
-  max-height: 100%;
-  width: 120px;
+.header-logo * {
+  height: 100%;
   object-fit: contain;
 }
 
 
 .header-links {
-  
   list-style-type: none;
+  padding: 0;
   display: flex;
   flex-direction: row;
 }
 
-.header-links > * { 
-};
+.header-links > * {
+  margin: 10px;
+}
+
+.textbox-name {
+  padding: 10px;
+  border: 2px solid black;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.dropdown-region {
+  padding: 9px;
+  border: 2px solid black;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-right: 20px;
+}
+
+.search-button {
+  border-radius: 10px;
+  border: 2px solid black;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.search-button:hover {
+  background-color: lightgray;
+}

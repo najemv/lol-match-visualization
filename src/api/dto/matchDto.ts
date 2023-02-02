@@ -1,11 +1,11 @@
-import MetadataDto from "./metadata-dto";
+import MetadataDto from "./metadataDto";
 
-type MatchDto = {
+export type MatchDto = {
   metadata: MetadataDto;
   info: InfoDto;
 };
 
-type InfoDto = {
+export type InfoDto = {
   gameCreation: number;
   gameDuration: number;
   gameEndTimestamp: number;
@@ -23,7 +23,7 @@ type InfoDto = {
   tournamentCode: string;
 };
 
-type ParticipantDto = {
+export type ParticipantDto = {
   assists: number;
   baronKills: number;
   bountyLevel: number;
@@ -131,43 +131,43 @@ type ParticipantDto = {
   win: boolean;
 };
 
-type PerksDto = {
+export type PerksDto = {
   statPerks: PerkStatsDto;
   styles: PerkStyleDto[];
 };
 
-type PerkStatsDto = {
+export type PerkStatsDto = {
   defense: number;
   flex: number;
   offense: number;
 };
 
-type PerkStyleDto = {
+export type PerkStyleDto = {
   description: string;
   selections: PerkStyleSelectionDto[];
   style: number;
 };
 
-type PerkStyleSelectionDto = {
+export type PerkStyleSelectionDto = {
   perk: number;
   var1: number;
   var2: number;
   var3: number;
 };
 
-type TeamDto = {
+export type TeamDto = {
   bans: BanDto[];
   objectives: ObjectivesDto;
   teamId: number;
   win: boolean;
 };
 
-type BanDto = {
+export type BanDto = {
   championId: number;
   pickTurn: number;
 };
 
-type ObjectivesDto = {
+export type ObjectivesDto = {
   baron: ObjectiveDto;
   champion: ObjectiveDto;
   dragon: ObjectiveDto;
@@ -176,7 +176,7 @@ type ObjectivesDto = {
   tower: ObjectiveDto;
 };
 
-type ObjectiveDto = {
+export type ObjectiveDto = {
   first: boolean;
   kills: number;
 };

@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "color-interpolate": "^1.0.5",
+    "colormap": "^2.3.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-two-thumb-input-range": "^1.0.7",
-    "ts-debounce": "^4.0.0"
+    "ts-debounce": "^4.0.0",
+    "victory": "^36.6.8"
   },
   "scripts": {
     "start": "react-scripts start",

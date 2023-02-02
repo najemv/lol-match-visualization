@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import MatchDto from "../api/dto/match-dto";
-import MatchTimelineDto from "../api/dto/match-timeline-dto";
-import { getMatchByMatchId } from "../api/match";
-import { getMatchTimelineByMatchId } from "../api/match-timeline";
+import { useParams, useSearchParams } from "react-router-dom";
+import MatchDto from "../../api/dto/matchDto";
+import MatchTimelineDto from "../../api/dto/matchTimelineDto";
+import { getMatchByMatchId } from "../../api/match";
+import { getMatchTimelineByMatchId } from "../../api/matchTimeline";
 
 
-const useMatchPageData = (matchId: string) => {
+const useMatchPageData = () => {
+  const { matchId } = useParams();
+  let [searchParams] = useSearchParams();
+  
+  
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -14,18 +19,20 @@ const useMatchPageData = (matchId: string) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      var match = await getMatchByMatchId(matchId);
+      setLoading(true);
+      const region = searchParams.get("region") || "";
+
+      var match = await getMatchByMatchId(matchId || "", region);
       if (match === undefined) {
         setError(true);
         return;
       }
 
-      var timeline = await getMatchTimelineByMatchId(matchId);
+      var timeline = await getMatchTimelineByMatchId(matchId || "", region);
       if (timeline === undefined) {
         setError(true);
         return;
       };
-
       
       setMatch(match);
       setTimeline(timeline);

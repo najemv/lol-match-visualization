@@ -1,16 +1,16 @@
-import MetadataDto from "./metadata-dto";
+import MetadataDto from "./metadataDto";
 
-type MatchTimelineDto = {
+export type MatchTimelineDto = {
   metadata: MetadataDto;
   info: InfoDto;
 };
 
-type InfoDto = {
+export type InfoDto = {
   frameInterval: number;
   frames: FrameDto[];
 };
 
-type FrameDto = {
+export type FrameDto = {
   events: EventDto[];
   participantFrames: ParticipantFramesDto;
   timestamp: number;
@@ -18,7 +18,7 @@ type FrameDto = {
 
 
 
-type ParticipantFramesDto = {
+export type ParticipantFramesDto = {
   1: ParticipantFrameDto;
   2: ParticipantFrameDto;
   3: ParticipantFrameDto;
@@ -31,7 +31,7 @@ type ParticipantFramesDto = {
   10: ParticipantFrameDto;
 };
 
-type ParticipantFrameDto = {
+export type ParticipantFrameDto = {
   championStats: ChampionStatsDto;
   currentGold: number;
   damageStats: DamageStatsDto;
@@ -46,7 +46,7 @@ type ParticipantFrameDto = {
   xp: number;
 };
 
-type ChampionStatsDto = {
+export type ChampionStatsDto = {
   abilityHaste: number;
   abilityPower: number;
   armor: number;
@@ -74,7 +74,7 @@ type ChampionStatsDto = {
   spellVamp: number;
 };
 
-type DamageStatsDto = {
+export type DamageStatsDto = {
   magicDamageDone: number;
   magicDamageDoneToChampions: number;
   magicDamageTaken: number;
@@ -89,12 +89,12 @@ type DamageStatsDto = {
   trueDamageTaken: number;
 };
 
-type PositionDto = {
+export type PositionDto = {
   x: number;
   y: number;
 };
 
-type EventDto = {
+export type EventDto = {
   type: string;
 }
   //PauseStartEventDto |

@@ -1,0 +1,9 @@
+.summoner-name {
+  display: flex;
+  flex-direction: row;
+}
+
+.summoner-icon {
+  height: 124px;
+  margin-right: 30px;
+}
